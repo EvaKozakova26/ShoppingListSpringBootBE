@@ -8,12 +8,15 @@
 
 <html>
 <head>
-    <title>Demo Server</title>
+    <title>Title</title>
 </head>
 <body>
 
-<c:out value="Hello World"/>
-<a  href='<spring:url value="/new" htmlEscape="true"/>'>Insert name</a>
-
+<form:form method="POST" modelAttribute="demo" enctype="multipart/form-data">
+    <fieldset>
+    <label><b>Name</b><span class="text-danger">*</span></label>
+    <form:input path="name" class="form-control" type="text" placeholder="Enter Name" required="true" />
+</fieldset>
+</form:form>
 </body>
 </html>
