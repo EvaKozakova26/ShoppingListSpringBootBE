@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class DemoService {
@@ -24,6 +25,10 @@ public class DemoService {
     public void saveAdvert(Demo demo) {
         demo.setTimestamp(new Timestamp(System.currentTimeMillis()));
         demoRepository.save(demo);
+    }
+
+    public List<Demo> findDemos() {
+        return demoRepository.findAll();
     }
 
 }

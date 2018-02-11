@@ -15,5 +15,9 @@
 <c:out value="Hello World"/>
 <a href='<spring:url value="/new" htmlEscape="true"/>'>Insert name</a>
 
+<c:forEach items="${demoList}" var="demo">
+    <p><c:out value="${demo.name}"/></p>
+</c:forEach>
+
 </body>
 </html>
