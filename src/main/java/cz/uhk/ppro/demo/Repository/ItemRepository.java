@@ -11,4 +11,8 @@ public interface ItemRepository {
     void save(Item item);
 
     List<Item> findAll();
+
+    void removeItem(Item item);
+
+    void changeState(Item item);
 }

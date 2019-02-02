@@ -41,4 +41,21 @@ public class ItemRepositoryImpl implements ItemRepository {
         Query query = this.em.createQuery("SELECT d FROM Item d");
         return query.getResultList();
     }
+
+    @Override
+    @Transactional
+    public void removeItem(Item item) {
+        if (em.contains(item)) {
+            em.remove(item);
+        } else {
+            Item deletedItem = em.getReference(item.getClass(), item.getId());
+            em.remove(deletedItem);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void changeState(Item item) {
+        em.merge(item);
+    }
 }

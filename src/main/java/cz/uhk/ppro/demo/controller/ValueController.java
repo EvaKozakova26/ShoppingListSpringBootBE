@@ -3,14 +3,9 @@ package cz.uhk.ppro.demo.controller;
 import cz.uhk.ppro.demo.Model.Item;
 import cz.uhk.ppro.demo.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.io.IOException;
-@Controller
+@RestController
 public class ValueController {
 
     private final ItemService itemService;
@@ -20,22 +15,25 @@ public class ValueController {
         this.itemService = itemService;
     }
 
-    /*@RequestMapping(value = "/new", method = RequestMethod.GET)
-    public ModelAndView showNewForm(@ModelAttribute("demo") Item demo, ModelMap modelMap) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("new");
-        return mav;
-    }*/
-
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String showNewForm(@ModelAttribute("item") Item item) {
-        return "new";
+    @CrossOrigin
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public Item createNew(@RequestBody Item item) {
+        System.out.println("called + " + item.getName());
+        return itemService.saveItem(item);
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String createNew(@ModelAttribute("item") @Valid Item item) throws IOException {
-        itemService.saveItem(item);
-        return "redirect:success";
+    @CrossOrigin
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public Item deleteItem(@RequestBody Item item) {
+        itemService.removeItem(item);
+        return item;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/check", method = RequestMethod.PUT)
+    public Item checkItem(@RequestBody Item item) {
+        itemService.changeState(item);
+        return item;
     }
 
     @RequestMapping(value = "/success")
