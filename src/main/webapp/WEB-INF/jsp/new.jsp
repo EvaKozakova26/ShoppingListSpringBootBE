@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form:form method="POST" modelAttribute="demo" enctype="multipart/form-data">
+<form:form method="POST" modelAttribute="item" enctype="multipart/form-data">
     <fieldset>
         <label><b>Name</b><span class="text-danger">*</span></label>
         <form:input path="name" class="form-control" type="text" placeholder="Enter Name" required="true"/>

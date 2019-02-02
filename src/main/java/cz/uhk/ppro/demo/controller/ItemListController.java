@@ -1,26 +1,26 @@
 package cz.uhk.ppro.demo.controller;
 
+import cz.uhk.ppro.demo.Model.Item;
 import cz.uhk.ppro.demo.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(value = "/")
-public class IndexController {
+import java.util.List;
+
+@RestController
+public class ItemListController {
 
     private final ItemService itemService;
 
     @Autowired
-    public IndexController(ItemService itemService) {
+    public ItemListController(ItemService itemService) {
         this.itemService = itemService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showIndex(Model model) {
-        return "index";
+    @RequestMapping(value = "/items", method = RequestMethod.GET)
+    public List<Item> showList() {
+        return itemService.findItems();
     }
-
 }

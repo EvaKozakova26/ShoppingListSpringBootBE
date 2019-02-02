@@ -1,42 +1,40 @@
 package cz.uhk.ppro.demo.controller;
 
-import cz.uhk.ppro.demo.Model.Demo;
-import cz.uhk.ppro.demo.Service.DemoService;
+import cz.uhk.ppro.demo.Model.Item;
+import cz.uhk.ppro.demo.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 import java.io.IOException;
 @Controller
 public class ValueController {
 
-    private final DemoService demoService;
+    private final ItemService itemService;
 
     @Autowired
-    public ValueController(DemoService demoService) {
-        this.demoService = demoService;
+    public ValueController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
     /*@RequestMapping(value = "/new", method = RequestMethod.GET)
-    public ModelAndView showNewForm(@ModelAttribute("demo") Demo demo, ModelMap modelMap) {
+    public ModelAndView showNewForm(@ModelAttribute("demo") Item demo, ModelMap modelMap) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("new");
         return mav;
     }*/
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String showNewForm(@ModelAttribute("demo") Demo demo) {
+    public String showNewForm(@ModelAttribute("item") Item item) {
         return "new";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String createNew(@ModelAttribute("demo") @Valid Demo demo) throws IOException {
-        demoService.saveAdvert(demo);
+    public String createNew(@ModelAttribute("item") @Valid Item item) throws IOException {
+        itemService.saveItem(item);
         return "redirect:success";
     }
 

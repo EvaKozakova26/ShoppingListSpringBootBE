@@ -4,18 +4,19 @@ SET FOREIGN_KEY_CHECKS=0
 
 /* Drop Tables */
 
-DROP TABLE IF EXISTS `Demo` CASCADE
+DROP TABLE IF EXISTS `Item` CASCADE
 ;
-
 
 /* Create Tables */
 
-CREATE TABLE `Demo`
+CREATE TABLE `Item`
 (
-  `ID` INT NOT NULL,
-  `Name` VARCHAR(50) NOT NULL,
-  `Timestamp` DATETIME NOT NULL,
-  CONSTRAINT `PK_Demo` PRIMARY KEY (`ID` ASC)
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `count` INT NOT NULL,
+  `state` VARCHAR(50) NOT NULL,
+  CONSTRAINT `PK_Item` PRIMARY KEY (`id` ASC)
 )
 
 ;
