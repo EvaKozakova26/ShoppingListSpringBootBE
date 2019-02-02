@@ -18,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.cors().and()
             .authorizeRequests()
             .antMatchers("/").permitAll();
     }
@@ -37,5 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/scripts/**");
         web.ignoring().antMatchers("/images/**");
     }
+
 }
 
