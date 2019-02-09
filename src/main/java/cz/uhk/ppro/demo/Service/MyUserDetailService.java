@@ -27,6 +27,7 @@ public class MyUserDetailService implements UserDetailsService {
         Optional<User> optionalUser = userRepo.findByUsername(username);
         optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
 
-        return new MyUserPrincipal(optionalUser.get());
+        return optionalUser.map(MyUserPrincipal::new).get();
+
     }
 }

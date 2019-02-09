@@ -3,10 +3,7 @@ package cz.uhk.ppro.demo.Model;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -21,10 +18,12 @@ public class User {
     @NotNull
     @NotEmpty
     private String name;
-
     @NotNull
     @NotEmpty
     private String password;
+
+    @ManyToOne
+    private Role role;
 
     public String getName() {
         return name;
@@ -40,5 +39,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

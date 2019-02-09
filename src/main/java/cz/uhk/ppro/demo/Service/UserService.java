@@ -1,6 +1,7 @@
 package cz.uhk.ppro.demo.Service;
 
 import cz.uhk.ppro.demo.Model.User;
+import cz.uhk.ppro.demo.Repository.RoleRepository;
 import cz.uhk.ppro.demo.Repository.UserRepository;
 import cz.uhk.ppro.demo.dto.UserDto;
 import cz.uhk.ppro.demo.security.MyUserPrincipal;
@@ -20,10 +21,14 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RoleRepository roleRepository;
+
+
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Transactional
@@ -34,8 +39,14 @@ public class UserService {
         User user = new User();
         user.setName(userDto.getName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRole(roleRepository.findByName("user").get());
         userRepository.save(user);
         return new MyUserPrincipal(user);
+    }
+
+    @Transactional
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }
