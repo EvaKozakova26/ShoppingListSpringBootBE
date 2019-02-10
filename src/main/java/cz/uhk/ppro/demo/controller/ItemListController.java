@@ -8,8 +8,7 @@ import cz.uhk.ppro.demo.security.MyAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +33,12 @@ public class ItemListController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/items", method = RequestMethod.GET)
+    @GetMapping(value = "/items")
     public List<Item> showList(HttpServletRequest request) {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             request.getUserPrincipal();
             //   MyUserPrincipal ss = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + " item list");
         }
 
         return itemService.findItems();

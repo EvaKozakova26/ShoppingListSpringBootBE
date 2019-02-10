@@ -16,29 +16,25 @@ public class ValueController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @PostMapping(value = "/new")
     public Item createNew(@RequestBody Item item) {
         System.out.println("called + " + item.getName());
         return itemService.saveItem(item);
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/delete")
     public Item deleteItem(@RequestBody Item item) {
         itemService.removeItem(item);
         return item;
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/check", method = RequestMethod.PUT)
+    @PutMapping(value = "/check")
     public Item checkItem(@RequestBody Item item) {
         itemService.changeState(item);
         return item;
     }
 
-    @RequestMapping(value = "/success")
-    public String showSuccess() {
-        return "success";
-    }
 
 }
