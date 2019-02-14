@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `Item` CASCADE;
 DROP TABLE IF EXISTS `Role` CASCADE;
 DROP TABLE IF EXISTS `User` CASCADE;
 DROP TABLE IF EXISTS `Logged_user` CASCADE;
+DROP TABLE IF EXISTS `Shopping_list` CASCADE;
 
 /* Create Tables */
 
@@ -33,15 +34,14 @@ CREATE TABLE `User`
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `password` VARCHAR(250) NOT NULL,
-  `roleID` int,
   CONSTRAINT `PK_User` PRIMARY KEY (`id` ASC)
 );
 
-CREATE TABLE `Logged_user`
+CREATE TABLE `Shopping_list`
 (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  CONSTRAINT `PK_logged_user` PRIMARY KEY (`id` ASC)
+  `created_at` DATETIME NOT NULL,
+  CONSTRAINT `PK_List` PRIMARY KEY (`id` ASC)
 );
 
 

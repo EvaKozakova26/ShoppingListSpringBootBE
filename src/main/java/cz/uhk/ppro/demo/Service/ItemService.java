@@ -1,6 +1,7 @@
 package cz.uhk.ppro.demo.Service;
 
 import cz.uhk.ppro.demo.Model.Item;
+import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,19 @@ public class ItemService {
         return item;
     }
 
-    public List<Item> findItems() {
-        return itemRepository.findAll();
+    @Transactional
+    public List<Item> findItems(ShoppingList shoppingList) {
+        return itemRepository.findAllByListId(shoppingList);
     }
 
     @Transactional
     public void removeItem(Item item) {
         itemRepository.removeItem(item);
+    }
+
+    @Transactional
+    public Optional<Item> findItem(Item item) {
+        return itemRepository.findItem(item);
     }
 
     @Transactional

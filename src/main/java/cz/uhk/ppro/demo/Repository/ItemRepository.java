@@ -1,6 +1,7 @@
 package cz.uhk.ppro.demo.Repository;
 
 import cz.uhk.ppro.demo.Model.Item;
+import cz.uhk.ppro.demo.Model.ShoppingList;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +11,11 @@ public interface ItemRepository {
 
     void save(Item item);
 
-    List<Item> findAll();
+    List<Item> findAllByListId(ShoppingList shoppingList);
 
     void removeItem(Item item);
 
     void changeState(Item item);
+
+    Optional<Item> findItem(Item item);
 }

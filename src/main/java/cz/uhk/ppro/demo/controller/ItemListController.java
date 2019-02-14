@@ -1,17 +1,17 @@
 package cz.uhk.ppro.demo.controller;
 
 import cz.uhk.ppro.demo.Model.Item;
+import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Service.ItemService;
 import cz.uhk.ppro.demo.Service.MyUserDetailService;
 import cz.uhk.ppro.demo.Service.UserService;
 import cz.uhk.ppro.demo.security.MyAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin
@@ -33,14 +33,9 @@ public class ItemListController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/items")
-    public List<Item> showList(HttpServletRequest request) {
-        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            request.getUserPrincipal();
-            //   MyUserPrincipal ss = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + " item list");
-        }
-
-        return itemService.findItems();
+    @PostMapping(value = "/getItems")
+    public List<Item> showList(@RequestBody ShoppingList shoppingList) {
+        List<Item> is = itemService.findItems(shoppingList);
+        return itemService.findItems(shoppingList);
     }
 }

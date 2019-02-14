@@ -1,5 +1,6 @@
 package cz.uhk.ppro.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
@@ -25,6 +26,10 @@ public class Item {
 
     @Column
     private String state;
+
+    @ManyToOne
+    @JsonIgnore
+    private ShoppingList shoppingList;
 
     public int getId() {
         return id;
@@ -64,5 +69,13 @@ public class Item {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
     }
 }

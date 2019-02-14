@@ -1,6 +1,7 @@
 package cz.uhk.ppro.demo.Repository.jpa;
 
 import cz.uhk.ppro.demo.Model.Item;
+import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Repository.ItemRepository;
 import org.springframework.stereotype.Repository;
 
@@ -37,8 +38,9 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public List<Item> findAll() {
-        Query query = this.em.createQuery("SELECT d FROM Item d");
+    public List<Item> findAllByListId(ShoppingList shoppingList) {
+        Query query = this.em.createQuery("SELECT d FROM Item d where d.shoppingList = :shoppingList");
+        query.setParameter("shoppingList", shoppingList);
         return query.getResultList();
     }
 
@@ -57,5 +59,16 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Transactional
     public void changeState(Item item) {
         em.merge(item);
+    }
+
+    @Override
+    public Optional<Item> findItem(Item item) {
+        Query query = this.em.createQuery("SELECT i FROM Item i WHERE i.name =:name " +
+                "AND i.createdAt = :time AND i.count = :countI AND i.state =:state ");
+        query.setParameter("name", item.getName());
+        query.setParameter("time", item.getCreatedAt());
+        query.setParameter("countI", item.getCount());
+        query.setParameter("state", item.getState());
+        return (Optional<Item>) query.setMaxResults(1).getResultList().stream().findFirst();
     }
 }
