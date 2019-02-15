@@ -3,6 +3,7 @@ package cz.uhk.ppro.demo.Repository.jpa;
 import cz.uhk.ppro.demo.Model.Item;
 import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Repository.ItemRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -38,6 +39,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    @Cacheable("item")
     public List<Item> findAllByListId(ShoppingList shoppingList) {
         Query query = this.em.createQuery("SELECT d FROM Item d where d.shoppingList = :shoppingList");
         query.setParameter("shoppingList", shoppingList);

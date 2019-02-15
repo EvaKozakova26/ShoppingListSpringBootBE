@@ -35,7 +35,6 @@ public class ItemListController {
     @CrossOrigin
     @PostMapping(value = "/getItems")
     public List<Item> showList(@RequestBody ShoppingList shoppingList) {
-        List<Item> is = itemService.findItems(shoppingList);
         return itemService.findItems(shoppingList);
     }
 }

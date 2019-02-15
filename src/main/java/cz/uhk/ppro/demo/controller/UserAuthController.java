@@ -53,17 +53,12 @@ public class UserAuthController {
     @CrossOrigin
     @PostMapping(value = "/register")
     public UserDto registerUser(@RequestBody UserDto userDto) {
-        //  MyUserPrincipal currentUser = (MyUserPrincipal) myUserDetailService.loadUserByUsername(userDto.getName());
-        //TODO vracet jen dto bez hesla?
-        //if (currentUser == null) {
+        // TODO - rovnou login?
         MyUserPrincipal currentUser = userService.createNewUser(userDto);
         UserDto user = new UserDto();
         user.setName(currentUser.getUsername());
         user.setPassword(currentUser.getPassword());
         return user;
-        //  } else {
-        //      return currentUser;
-        //  }
     }
 
     @CrossOrigin

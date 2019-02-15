@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,26 +61,10 @@ public class ShoppingListsController {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
             if (user.isPresent()) {
-                List<Item> itemList = new ArrayList<>();
-                ShoppingList shoppingList = new ShoppingList();
-                shoppingList.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-                shoppingList.setUser(user.get());
-                shoppingListService.saveItem(shoppingList);
-                for (Item item : items) {
-                    Optional<Item> dbItem = itemService.findItem(item);
-                    if (dbItem.isPresent()) {
-                        dbItem.get().setShoppingList(shoppingList);
-                        itemService.saveItem(dbItem.get());
-                        itemList.add(dbItem.get());
-                    }
-                }
-                shoppingList.setItems(itemList);
-                shoppingListService.saveItem(shoppingList);
-                return shoppingList;
+                return shoppingListService.createList(user.get(), items);
             }
         }
         return new ShoppingList();
     }
-
 
 }
