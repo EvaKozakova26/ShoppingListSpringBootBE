@@ -32,7 +32,7 @@ public class ShoppingListService {
     }
 
     public List<ShoppingList> findItemsByUserId(User user) {
-        return shoppingListRepository.findAllByUSerId(1);
+        return shoppingListRepository.findAllByUSerId(user.getId());
     }
 
     @Transactional

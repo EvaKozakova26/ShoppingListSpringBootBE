@@ -4,10 +4,10 @@ import cz.uhk.ppro.demo.Model.User;
 import cz.uhk.ppro.demo.Service.MyUserDetailService;
 import cz.uhk.ppro.demo.Service.UserService;
 import cz.uhk.ppro.demo.dto.UserDto;
-import cz.uhk.ppro.demo.security.MyAuthenticationRequest;
-import cz.uhk.ppro.demo.security.MyUserAuth;
 import cz.uhk.ppro.demo.security.MyUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,14 +38,13 @@ public class UserAuthController {
     public UserDto loginUser(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
         MyUserPrincipal currentUser = (MyUserPrincipal) myUserDetailService.loadUserByUsername(userDto.getName());
 
-        SecurityContextHolder.getContext().setAuthentication(
-                new MyAuthenticationRequest(currentUser.getUsername()));
 
         UserDto user = new UserDto();
         user.setName(currentUser.getUsername());
         user.setPassword(currentUser.getPassword());
-        MyUserAuth myUserAuth = new MyUserAuth(currentUser);
-        SecurityContextHolder.getContext().setAuthentication(myUserAuth);
+        Authentication a = new UsernamePasswordAuthenticationToken(currentUser, null, currentUser.getAuthorities());
+        //TODO validate password
+        SecurityContextHolder.getContext().setAuthentication(a);
 
         return user;
     }

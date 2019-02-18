@@ -18,7 +18,6 @@ public class ValueController {
     @CrossOrigin
     @PostMapping(value = "/new")
     public Item createNew(@RequestBody Item item) {
-        System.out.println("called + " + item.getName());
         return itemService.saveItem(item);
     }
 

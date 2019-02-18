@@ -1,6 +1,5 @@
 package cz.uhk.ppro.demo.configuration;
 
-import cz.uhk.ppro.demo.security.MyAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,12 +30,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/new").permitAll()
-                .and().formLogin().
-                and()
-                .logout()
-                .logoutSuccessUrl("/items");
-
+                .antMatchers("/new", "/loginn", "/register", "/logout", "/getLists").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .logout();
     }
 
 
@@ -58,12 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(new MyAuthenticationProvider());
-
     }
 
     @Bean

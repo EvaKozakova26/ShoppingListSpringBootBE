@@ -3,11 +3,8 @@ package cz.uhk.ppro.demo.controller;
 import cz.uhk.ppro.demo.Model.Item;
 import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Model.User;
-import cz.uhk.ppro.demo.Service.ItemService;
-import cz.uhk.ppro.demo.Service.MyUserDetailService;
 import cz.uhk.ppro.demo.Service.ShoppingListService;
 import cz.uhk.ppro.demo.Service.UserService;
-import cz.uhk.ppro.demo.security.MyAuthenticationProvider;
 import cz.uhk.ppro.demo.security.MyUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,19 +21,13 @@ import java.util.Optional;
 @RestController
 public class ShoppingListsController {
 
-    private final ItemService itemService;
     private final UserService userService;
-    private final MyAuthenticationProvider authentication;
-    private final MyUserDetailService myUserDetailService;
     private final ShoppingListService shoppingListService;
 
 
     @Autowired
-    public ShoppingListsController(ItemService itemService, MyAuthenticationProvider myAuthenticationProvider, UserService userService, MyUserDetailService myUserDetailService, ShoppingListService shoppingListService) {
-        this.itemService = itemService;
-        this.authentication = myAuthenticationProvider;
+    public ShoppingListsController(UserService userService, ShoppingListService shoppingListService) {
         this.userService = userService;
-        this.myUserDetailService = myUserDetailService;
         this.shoppingListService = shoppingListService;
     }
 
