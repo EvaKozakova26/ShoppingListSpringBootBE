@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,11 +26,14 @@ public class UserAuthController {
 
     private final MyUserDetailService myUserDetailService;
 
+    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserAuthController(UserService userService, MyUserDetailService myUserDetailService) {
+    public UserAuthController(UserService userService, MyUserDetailService myUserDetailService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.myUserDetailService = myUserDetailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -38,15 +42,19 @@ public class UserAuthController {
     public UserDto loginUser(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
         MyUserPrincipal currentUser = (MyUserPrincipal) myUserDetailService.loadUserByUsername(userDto.getName());
 
+        if (passwordEncoder.matches(userDto.getPassword(), currentUser.getPassword())) {
+            UserDto user = new UserDto();
+            user.setName(currentUser.getUsername());
+            user.setPassword(currentUser.getPassword());
+            Authentication a = new UsernamePasswordAuthenticationToken(currentUser, null, currentUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(a);
 
-        UserDto user = new UserDto();
-        user.setName(currentUser.getUsername());
-        user.setPassword(currentUser.getPassword());
-        Authentication a = new UsernamePasswordAuthenticationToken(currentUser, null, currentUser.getAuthorities());
-        //TODO validate password
-        SecurityContextHolder.getContext().setAuthentication(a);
+            return user;
+        }
 
-        return user;
+        System.out.println("wrong password");
+        return new UserDto();
+
     }
 
     @CrossOrigin
