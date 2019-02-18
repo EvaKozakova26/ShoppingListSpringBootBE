@@ -51,7 +51,7 @@ public class ShoppingListRepositoryImpl implements ShoppingListRepository {
 
     @Override
     @Transactional
-    public void removeItem(ShoppingList shoppingList) {
+    public void removeShoppingList(ShoppingList shoppingList) {
         if (em.contains(shoppingList)) {
             em.remove(shoppingList);
         } else {

@@ -36,8 +36,8 @@ public class ShoppingListService {
     }
 
     @Transactional
-    public void removeItem(ShoppingList shoppingList) {
-        shoppingListRepository.removeItem(shoppingList);
+    public void removeList(ShoppingList shoppingList) {
+        shoppingListRepository.removeShoppingList(shoppingList);
     }
 
 

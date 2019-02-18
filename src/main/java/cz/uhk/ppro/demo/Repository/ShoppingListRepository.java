@@ -14,6 +14,6 @@ public interface ShoppingListRepository {
 
     List<ShoppingList> findAllByUSerId(int id);
 
-    void removeItem(ShoppingList shoppingList);
+    void removeShoppingList(ShoppingList shoppingList);
 
 }

@@ -58,4 +58,11 @@ public class ShoppingListsController {
         return new ShoppingList();
     }
 
+    @CrossOrigin
+    @DeleteMapping(value = "/deleteList")
+    public ShoppingList deleteItem(@RequestBody ShoppingList list) {
+        shoppingListService.removeList(list);
+        return list;
+    }
+
 }
