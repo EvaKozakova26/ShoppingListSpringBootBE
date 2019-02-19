@@ -5,6 +5,7 @@ import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Model.User;
 import cz.uhk.ppro.demo.Service.ShoppingListService;
 import cz.uhk.ppro.demo.Service.UserService;
+import cz.uhk.ppro.demo.dto.ShoppingListDto;
 import cz.uhk.ppro.demo.security.MyUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -53,6 +54,19 @@ public class ShoppingListsController {
             Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
             if (user.isPresent()) {
                 return shoppingListService.createList(user.get(), items);
+            }
+        }
+        return new ShoppingList();
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/updateList")
+    public ShoppingList updateList(@RequestBody ShoppingListDto shoppingList) {
+        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
+            if (user.isPresent()) {
+                return shoppingListService.updateList(shoppingList, user.get());
             }
         }
         return new ShoppingList();

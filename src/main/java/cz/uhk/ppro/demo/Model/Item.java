@@ -25,7 +25,7 @@ public class Item {
     private int count;
 
     @Column
-    private String state;
+    private boolean state;
 
     @ManyToOne
     @JsonIgnore
@@ -63,11 +63,11 @@ public class Item {
         this.count = count;
     }
 
-    public String getState() {
+    public boolean getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(boolean state) {
         this.state = state;
     }
 

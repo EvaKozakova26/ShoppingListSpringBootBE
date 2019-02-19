@@ -4,6 +4,7 @@ import cz.uhk.ppro.demo.Model.Item;
 import cz.uhk.ppro.demo.Model.ShoppingList;
 import cz.uhk.ppro.demo.Model.User;
 import cz.uhk.ppro.demo.Repository.ShoppingListRepository;
+import cz.uhk.ppro.demo.dto.ShoppingListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class ShoppingListService {
     }
 
     @Transactional
-    public ShoppingList saveItem(ShoppingList shoppingList) {
+    public ShoppingList saveShoppingList(ShoppingList shoppingList) {
         shoppingListRepository.save(shoppingList);
         return shoppingList;
     }
@@ -42,11 +43,11 @@ public class ShoppingListService {
 
 
     public ShoppingList createList(User user, List<Item> items) {
-        List<Item> itemList = new ArrayList<>();
         ShoppingList shoppingList = new ShoppingList();
+        List<Item> itemList = new ArrayList<>();
         shoppingList.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         shoppingList.setUser(user);
-        saveItem(shoppingList);
+        saveShoppingList(shoppingList);
         for (Item item : items) {
             Optional<Item> dbItem = itemService.findItem(item);
             if (dbItem.isPresent()) {
@@ -56,7 +57,25 @@ public class ShoppingListService {
             }
         }
         shoppingList.setItems(itemList);
-        saveItem(shoppingList);
+        saveShoppingList(shoppingList);
         return shoppingList;
+    }
+
+    public ShoppingList updateList(ShoppingListDto shoppingListDto, User user) {
+        ShoppingList shoppingList = shoppingListDto.getShoppingList();
+        List<Item> itemList = new ArrayList<>();
+
+        for (Item item : shoppingListDto.getItems()) {
+            Optional<Item> dbItem = itemService.findItem(item);
+            if (dbItem.isPresent()) {
+                dbItem.get().setShoppingList(shoppingList);
+                itemService.saveItem(dbItem.get());
+                itemList.add(dbItem.get());
+            }
+        }
+
+        shoppingList.setItems(itemList);
+        shoppingList.setUser(user);
+        return saveShoppingList(shoppingList);
     }
 }
