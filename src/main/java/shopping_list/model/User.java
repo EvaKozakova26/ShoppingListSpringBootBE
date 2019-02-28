@@ -1,4 +1,4 @@
-package shopping_list.Model;
+package shopping_list.model;
 
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotEmpty;

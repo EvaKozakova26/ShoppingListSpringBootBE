@@ -5,15 +5,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import shopping_list.Model.User;
-import shopping_list.Service.MyUserDetailService;
-import shopping_list.Service.UserService;
+import org.springframework.web.bind.annotation.*;
 import shopping_list.dto.UserDto;
+import shopping_list.model.User;
 import shopping_list.security.MyUserPrincipal;
+import shopping_list.service.MyUserDetailService;
+import shopping_list.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +35,7 @@ public class UserAuthController {
 
 
     @CrossOrigin
-    @PostMapping(value = "/loginn")
+    @PostMapping(value = "api/loginUser")
     public UserDto loginUser(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
         MyUserPrincipal currentUser = (MyUserPrincipal) myUserDetailService.loadUserByUsername(userDto.getName());
 
@@ -58,7 +55,7 @@ public class UserAuthController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/register")
+    @PostMapping(value = "api/register")
     public UserDto registerUser(@RequestBody UserDto userDto) {
         // TODO - rovnou login?
         MyUserPrincipal currentUser = userService.createNewUser(userDto);
@@ -69,7 +66,7 @@ public class UserAuthController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/logoutt")
+    @GetMapping(value = "api/logoutUser")
     public MyUserPrincipal logoutUser() {
         SecurityContextHolder.clearContext();
         //TODO better handling

@@ -1,13 +1,13 @@
-package shopping_list.Service;
+package shopping_list.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shopping_list.Model.Item;
-import shopping_list.Model.ShoppingList;
-import shopping_list.Model.User;
-import shopping_list.Repository.ShoppingListRepository;
 import shopping_list.dto.ShoppingListDto;
+import shopping_list.model.Item;
+import shopping_list.model.ShoppingList;
+import shopping_list.model.User;
+import shopping_list.repository.ShoppingListRepository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class ShoppingListService {
         shoppingList.setUser(user);
         saveShoppingList(shoppingList);
         for (Item item : items) {
-            Optional<Item> dbItem = itemService.findItem(item);
+            Optional<Item> dbItem = itemService.findById(item);
             if (dbItem.isPresent()) {
                 dbItem.get().setShoppingList(shoppingList);
                 itemService.saveItem(dbItem.get());
@@ -66,7 +66,7 @@ public class ShoppingListService {
         List<Item> itemList = new ArrayList<>();
 
         for (Item item : shoppingListDto.getItems()) {
-            Optional<Item> dbItem = itemService.findItem(item);
+            Optional<Item> dbItem = itemService.findById(item);
             if (dbItem.isPresent()) {
                 dbItem.get().setShoppingList(shoppingList);
                 itemService.saveItem(dbItem.get());

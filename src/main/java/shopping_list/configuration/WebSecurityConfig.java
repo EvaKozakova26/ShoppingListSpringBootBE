@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import shopping_list.Service.MyUserDetailService;
+import shopping_list.service.MyUserDetailService;
 
 
 @Configuration
@@ -30,8 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/new", "/loginn", "/register", "/logout", "/getLists", "/getItems").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("api/newItem", "api/loginUser", "api/register", "api/logoutUser", "api/getLists", "/api/getItems").permitAll()
+
                 .and()
                 .logout();
     }

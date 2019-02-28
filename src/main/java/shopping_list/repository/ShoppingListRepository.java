@@ -1,6 +1,6 @@
-package shopping_list.Repository;
+package shopping_list.repository;
 
-import shopping_list.Model.ShoppingList;
+import shopping_list.model.ShoppingList;
 
 import java.util.List;
 import java.util.Optional;

@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import shopping_list.Model.Item;
-import shopping_list.Model.ShoppingList;
-import shopping_list.Service.ItemService;
+import shopping_list.model.Item;
+import shopping_list.model.ShoppingList;
+import shopping_list.service.ItemService;
 
 import java.util.List;
 
@@ -17,14 +17,13 @@ public class ItemListController {
 
     private final ItemService itemService;
 
-
     @Autowired
     public ItemListController(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @CrossOrigin
-    @PostMapping(value = "/getItems")
+    @PostMapping(value = "api/getItems")
     public List<Item> showList(@RequestBody ShoppingList shoppingList) {
         return itemService.findItems(shoppingList);
     }

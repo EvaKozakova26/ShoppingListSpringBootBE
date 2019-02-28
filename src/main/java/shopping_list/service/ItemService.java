@@ -1,14 +1,15 @@
-package shopping_list.Service;
+package shopping_list.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shopping_list.Model.Item;
-import shopping_list.Model.ShoppingList;
-import shopping_list.Repository.ItemRepository;
+import shopping_list.model.Item;
+import shopping_list.model.ShoppingList;
+import shopping_list.repository.ItemRepository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class ItemService {
     @Transactional
     public Item saveItem(Item item) {
         logger.debug("getting items");
+        item.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         itemRepository.save(item);
         return item;
     }
@@ -43,8 +45,8 @@ public class ItemService {
     }
 
     @Transactional
-    public Optional<Item> findItem(Item item) {
-        return itemRepository.findItem(item);
+    public Optional<Item> findById(Item item) {
+        return itemRepository.findById(item.getId());
     }
 
     @Transactional

@@ -1,7 +1,7 @@
 package shopping_list.dto;
 
-import shopping_list.Model.Item;
-import shopping_list.Model.ShoppingList;
+import shopping_list.model.Item;
+import shopping_list.model.ShoppingList;
 
 import java.util.List;
 

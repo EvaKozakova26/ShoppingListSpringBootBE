@@ -1,10 +1,10 @@
-package shopping_list.Repository.jpa;
+package shopping_list.repository.jpa;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-import shopping_list.Model.Item;
-import shopping_list.Model.ShoppingList;
-import shopping_list.Repository.ItemRepository;
+import shopping_list.model.Item;
+import shopping_list.model.ShoppingList;
+import shopping_list.repository.ItemRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

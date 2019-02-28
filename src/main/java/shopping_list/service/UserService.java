@@ -1,13 +1,13 @@
-package shopping_list.Service;
+package shopping_list.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import shopping_list.Model.User;
-import shopping_list.Repository.RoleRepository;
-import shopping_list.Repository.UserRepository;
 import shopping_list.dto.UserDto;
+import shopping_list.model.User;
+import shopping_list.repository.RoleRepository;
+import shopping_list.repository.UserRepository;
 import shopping_list.security.MyUserPrincipal;
 
 import javax.transaction.Transactional;

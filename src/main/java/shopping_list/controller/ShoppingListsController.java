@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import shopping_list.Model.Item;
-import shopping_list.Model.ShoppingList;
-import shopping_list.Model.User;
-import shopping_list.Service.ShoppingListService;
-import shopping_list.Service.UserService;
 import shopping_list.dto.ShoppingListDto;
+import shopping_list.model.Item;
+import shopping_list.model.ShoppingList;
+import shopping_list.model.User;
 import shopping_list.security.MyUserPrincipal;
+import shopping_list.service.ShoppingListService;
+import shopping_list.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class ShoppingListsController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "/getLists")
+    @GetMapping(value = "api/getLists")
     public List<ShoppingList> showList(HttpServletRequest request) {
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -47,7 +47,7 @@ public class ShoppingListsController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/saveList")
+    @PostMapping(value = "api/saveList")
     public ShoppingList saveList(@RequestBody List<Item> items) {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -60,7 +60,7 @@ public class ShoppingListsController {
     }
 
     @CrossOrigin
-    @PostMapping(value = "/updateList")
+    @PostMapping(value = "api/updateList")
     public ShoppingList updateList(@RequestBody ShoppingListDto shoppingList) {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -73,7 +73,7 @@ public class ShoppingListsController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/deleteList")
+    @DeleteMapping(value = "api/deleteList")
     public ShoppingList deleteItem(@RequestBody ShoppingList list) {
         shoppingListService.removeList(list);
         return list;
