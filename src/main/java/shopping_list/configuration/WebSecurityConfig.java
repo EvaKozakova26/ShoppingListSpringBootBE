@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("api/newItem", "api/loginUser", "api/register", "api/logoutUser", "api/getLists", "/api/getItems").permitAll()
-
+                .antMatchers("/api/newItem", "/api/loginUser", "/api/register", "/api/logoutUser", "/api/getLists").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .logout();
     }
@@ -59,16 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
-    }
-
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        //Web resources
-        web.ignoring().antMatchers("/css/**");
-        web.ignoring().antMatchers("/static/**");
-        web.ignoring().antMatchers("/scripts/**");
-        web.ignoring().antMatchers("/images/**");
     }
 
 }
