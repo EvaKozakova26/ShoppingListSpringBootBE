@@ -10,8 +10,6 @@ import shopping_list.model.User;
 import shopping_list.repository.UserRepository;
 import shopping_list.security.MyUserPrincipal;
 
-import java.util.Optional;
-
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
@@ -24,10 +22,10 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepo.findByUsername(username);
-        optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
-
-        return optionalUser.map(MyUserPrincipal::new).get();
-
+        User user = userRepo.findByName(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Username not found!");
+        }
+        return new MyUserPrincipal(user);
     }
 }

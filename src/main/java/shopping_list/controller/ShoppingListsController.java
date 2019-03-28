@@ -12,11 +12,9 @@ import shopping_list.security.MyUserPrincipal;
 import shopping_list.service.ShoppingListService;
 import shopping_list.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -34,15 +32,15 @@ public class ShoppingListsController {
 
     @CrossOrigin
     @GetMapping(value = "api/getLists")
-    public List<ShoppingList> showList(HttpServletRequest request) {
+    public List<ShoppingList> showList() {
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
-            if (user.isPresent()) {
-                return shoppingListService.findItemsByUserId(user.get());
+            User user = userService.findByUsername(myUserPrincipal.getUsername());
+            if (user != null) {
+                return shoppingListService.findItemsByUserId(user);
             }
         }
-        // TODO better handling
+        // TODO better handling - return Status Code
         return new ArrayList(Arrays.asList(new ShoppingList()));
     }
 
@@ -51,9 +49,9 @@ public class ShoppingListsController {
     public ShoppingList saveList(@RequestBody List<Item> items) {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
-            if (user.isPresent()) {
-                return shoppingListService.createList(user.get(), items);
+            User user = userService.findByUsername(myUserPrincipal.getUsername());
+            if (user != null) {
+                return shoppingListService.createList(user, items);
             }
         }
         return new ShoppingList();
@@ -64,9 +62,9 @@ public class ShoppingListsController {
     public ShoppingList updateList(@RequestBody ShoppingListDto shoppingList) {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             MyUserPrincipal myUserPrincipal = (MyUserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Optional<User> user = userService.findByUsername(myUserPrincipal.getUsername());
-            if (user.isPresent()) {
-                return shoppingListService.updateList(shoppingList, user.get());
+            User user = userService.findByUsername(myUserPrincipal.getUsername());
+            if (user != null) {
+                return shoppingListService.updateList(shoppingList, user);
             }
         }
         return new ShoppingList();
@@ -74,7 +72,7 @@ public class ShoppingListsController {
 
     @CrossOrigin
     @DeleteMapping(value = "api/deleteList")
-    public ShoppingList deleteItem(@RequestBody ShoppingList list) {
+    public ShoppingList deleteShoppingList(@RequestBody ShoppingList list) {
         shoppingListService.removeList(list);
         return list;
     }

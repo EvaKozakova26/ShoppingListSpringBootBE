@@ -11,19 +11,13 @@ import shopping_list.repository.ItemRepository;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ItemService {
-    private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
-
-
-    private ItemRepository itemRepository;
+public class ItemServiceImpl {
+    private static final Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
 
     @Autowired
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
+    private ItemRepository itemRepository;
 
     @Transactional
     public Item saveItem(Item item) {
@@ -35,26 +29,25 @@ public class ItemService {
 
     @Transactional
     public List<Item> findItems(ShoppingList shoppingList) {
-
-        return itemRepository.findAllByListId(shoppingList);
+        return itemRepository.findAllByShoppingListId(shoppingList.getId());
     }
 
     @Transactional
     public void removeItem(Item item) {
-        itemRepository.removeItem(item);
+        itemRepository.delete(item);
     }
 
     @Transactional
-    public Optional<Item> findById(Item item) {
+    public Item findById(Item item) {
         return itemRepository.findById(item.getId());
     }
 
     @Transactional
     public void changeState(Item item) {
-        Optional<Item> editedItem = itemRepository.findById(item.getId());
-        if (editedItem.isPresent()) {
-            editedItem.get().setState(item.getState());
-            itemRepository.changeState(editedItem.get());
+        Item editedItem = itemRepository.findById(item.getId());
+        if (editedItem != null) {
+            editedItem.setState(item.getState());
+            itemRepository.save(editedItem);
         }
     }
 

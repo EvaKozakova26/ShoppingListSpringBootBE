@@ -12,7 +12,6 @@ import shopping_list.repository.UserRepository;
 import shopping_list.service.UserService;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,15 +26,15 @@ public class UserServiceTest {
 
     @Test
     @Transactional
-    public void createItemTest() {
+    public void createUserTest() {
 
         UserDto userDto = new UserDto();
         userDto.setPassword("abcdef");
         userDto.setName("test");
         userService.createNewUser(userDto);
 
-        Optional<User> user = userService.findByUsername("test");
-        Assert.assertEquals(user.get().getName(), userDto.getName());
+        User user = userService.findByUsername("test");
+        Assert.assertEquals(user.getName(), userDto.getName());
 
     }
 

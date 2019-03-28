@@ -3,15 +3,15 @@ package shopping_list.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import shopping_list.model.Item;
-import shopping_list.service.ItemService;
+import shopping_list.service.ItemServiceImpl;
 
 @RestController
 public class ValueController {
 
-    private final ItemService itemService;
+    private final ItemServiceImpl itemService;
 
     @Autowired
-    public ValueController(ItemService itemService) {
+    public ValueController(ItemServiceImpl itemService) {
         this.itemService = itemService;
     }
 

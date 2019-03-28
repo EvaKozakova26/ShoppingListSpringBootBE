@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import shopping_list.model.Item;
 import shopping_list.model.ShoppingList;
-import shopping_list.service.ItemService;
+import shopping_list.service.ItemServiceImpl;
 
 import java.util.List;
 
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 public class ItemListController {
 
-    private final ItemService itemService;
+    private final ItemServiceImpl itemService;
 
     @Autowired
-    public ItemListController(ItemService itemService) {
+    public ItemListController(ItemServiceImpl itemService) {
         this.itemService = itemService;
     }
 

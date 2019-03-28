@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Indexed
-@Table(name = "user", schema = "demo")
+@Table(name = "users", schema = "demo")
 public class User {
 
     @Id

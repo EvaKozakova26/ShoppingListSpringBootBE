@@ -1,19 +1,19 @@
 package shopping_list.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import shopping_list.model.ShoppingList;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ShoppingListRepository {
-    Optional<ShoppingList> findById(int id);
+@Repository
+public interface ShoppingListRepository extends JpaRepository<ShoppingList, Long> {
+    ShoppingList findById(int id);
 
-    void save(ShoppingList shoppingList);
+    ShoppingList save(ShoppingList shoppingList);
 
     List<ShoppingList> findAll();
 
-    List<ShoppingList> findAllByUSerId(int id);
-
-    void removeShoppingList(ShoppingList shoppingList);
+    List<ShoppingList> findAllByUserId(int id);
 
 }

@@ -12,7 +12,6 @@ import shopping_list.security.MyUserPrincipal;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -33,20 +32,20 @@ public class UserService {
 
     @Transactional
     public MyUserPrincipal createNewUser(@Valid UserDto userDto) throws DataAccessException {
-        Optional<User> u = userRepository.findByUsername(userDto.getName());
-        if (u.isPresent()) return new MyUserPrincipal(u.get());
+        User u = userRepository.findByName(userDto.getName());
+        if (u != null) return new MyUserPrincipal(u);
 
         User user = new User();
         user.setName(userDto.getName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole(roleRepository.findByName("user").get());
+        user.setRole(roleRepository.findByName("user"));
         userRepository.save(user);
         return new MyUserPrincipal(user);
     }
 
     @Transactional
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByName(username);
     }
 
 }

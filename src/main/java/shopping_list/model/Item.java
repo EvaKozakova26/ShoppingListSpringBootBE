@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Indexed
-@Table(name = "item", schema = "demo")
+@Table(name = "items", schema = "demo")
 public class Item {
 
     @Id

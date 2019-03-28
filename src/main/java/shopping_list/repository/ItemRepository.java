@@ -1,21 +1,17 @@
 package shopping_list.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import shopping_list.model.Item;
-import shopping_list.model.ShoppingList;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ItemRepository {
-    Optional<Item> findById(int id);
+@Repository
+public interface ItemRepository extends JpaRepository<Item, Long> {
+    Item findById(int id);
 
-    void save(Item item);
+    List<Item> findAllByShoppingListId(int id);
 
-    List<Item> findAllByListId(ShoppingList shoppingList);
+    void delete(Item item);
 
-    void removeItem(Item item);
-
-    void changeState(Item item);
-
-    Optional<Item> findItem(Item item);
 }
