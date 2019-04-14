@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roles", schema = "demo")
@@ -56,9 +57,8 @@ public class Role {
         Role role = (Role) o;
 
         if (id != role.id) return false;
-        if (name != null ? !name.equals(role.name) : role.name != null) return false;
+        return Objects.equals(name, role.name);
 
-        return true;
     }
 
     @Override
